@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Polyfill (if needed) -->
+  <!-- <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
+</head>
+<body>
+  <my-custom-element name="Sema"></my-custom-element>
+
+  <script>
+    class MyCustomElement extends HTMLElement {
+      constructor() {
+        super();
+        console.log('> Constructor');
+      }
+
+      connectedCallback() {
+        console.log('> connectedCallback');
+      }
+
+      disconnectedCallback() {
+        console.log('> disconnectedCallback');
+      }
+
+      attributeChangedCallback(attrName, oldValue, newValue) {
+        console.log(`> ATTR: ${attrName} has changed from "${oldValue}" to "${newValue}"`);
+      }
+
+      static get observedAttributes() {
+        return ['name', 'surname'];
+      }
+    }
+
+    customElements.define('my-custom-element', MyCustomElement);
+  </script>
+</body>
+</html>

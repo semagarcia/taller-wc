@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyElement extends LitElement {
+      static get properties() {
+        return {
+          prop1: { type: Number, hasChanged: (n, o) => (n > 5) }
+        };
+      }
+
+      constructor() {
+        super();
+      }
+
+      updated() {
+        console.log('Update!');
+      }
+
+      render() {
+        return html`<p>${this.prop1}</p>`;
+      }
+    }
+
+    // Register the new element with the browser.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

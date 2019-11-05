@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-buttons>
+    <button slot="left">Left button</button>
+    <button slot="right">Right button</button>
+  </my-buttons>
+
+  <script>
+    customElements.define('my-buttons', class extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+          <style>
+            .shadow-dom-btn { display: flex; flex-grow: 1; justify-content: center; }
+          </style>
+
+          <div style="display: flex;">
+            <div class="shadow-dom-btn">
+              <slot name="left"></slot>
+            </div>
+            <div class="shadow-dom-btn">
+              <slot name="right"></slot>
+            </div>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

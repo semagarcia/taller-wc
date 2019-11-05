@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-container>
+    <my-lit-left slot="right"></my-lit-left>
+    <my-lit-right slot="left"></my-lit-right>
+  </my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyContainer extends LitElement {
+      render() {
+        return html`
+          <div style="display: flex;">
+            <slot name="left" style="display: flex; flex-grow: 1;"></slot>
+            <slot name="right" style="display: flex; flex-grow: 1;"></slot>
+          </div>
+        `;
+      }
+    }
+
+    class Left extends LitElement {
+      render() {
+        return html`<p>I am a leftElement!</p>`;
+      }
+    }
+
+    class Right extends LitElement {
+      render() {
+        return html`<p>I am a rightElement!</p>`;
+      }
+    }
+
+    // Register the elements
+    customElements.define('my-lit-container', MyContainer);
+    customElements.define('my-lit-left', Left);
+    customElements.define('my-lit-right', Right);
+  </script>
+</body>
+</html>

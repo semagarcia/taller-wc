@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style>
+    .red {
+      background-color: red;
+      color: #fff;
+    }
+    .yellow {
+      background-color: yellowgreen;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <button id="btn1" class="red">I am a button oustide ShadowDOM</button>
+  <button id="btn2" class="yellow">I am a button oustide ShadowDOM</button>
+
+  <br /><br />
+
+  <my-buttons></my-buttons>
+
+  <script>
+    customElements.define('my-buttons', class extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `
+          <!-- Styles -->
+          <style>
+            .red { background-color: blue; font-size: 16px; line-height: 28px; }
+            .yellow { background-color: blue; }
+          </style>
+
+          <!-- Template -->
+          <button id="btn1" class="red">I am a button inside ShadowDOM</button>
+          <button id="btn2" class="yellow">I am a button inside ShadowDOM</button>
+        `;
+      }
+
+      connectedCallback() {
+        // console.log('=>=> ', this.shadowRoot.querySelectorAll('#btn1'))
+        setTimeout(() => console.log('[INSIDE] >> how many? ', document.querySelectorAll('#btn1')), 2000);
+      }
+    });
+
+    console.log('[OUTSIDE] >> how many? ', document.querySelectorAll('#btn1'));
+  </script>
+</body>
+</html>

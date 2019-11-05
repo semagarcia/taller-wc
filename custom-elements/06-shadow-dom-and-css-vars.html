@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      --success-color: #0F0;
+      --error-color: #F00;
+    }
+  </style>
+</head>
+<body>
+  <div id="exampleDiv"></div>
+
+  <script>
+    const div = document.querySelector ('#exampleDiv');
+    div.attachShadow ({mode : 'open'});
+    div.shadowRoot.innerHTML = `
+      <!-- Replace with CSS vars -->
+      <style>
+        .box { height: 24px; width: 24px; }
+        .success { background-color: #0F0; }
+        .error { background-color: #F00; }
+      </style>
+      <div class="box success"></div>
+      <div class="box error"></div>
+    `;
+  </script>
+</body>
+</html>

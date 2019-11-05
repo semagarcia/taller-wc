@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html, css } from 'https://unpkg.com/lit-element?module';
+
+    const someColorFromCorporativeStyleGuideOrPalette = css`red`;
+    const sharedStylesFromSomeKindOfExternalResource = css`
+      .prg { padding: 48px 24px; }
+    `;
+
+    class MyElement extends LitElement {
+      static get styles() {
+        return css`
+          :host { display: block; }
+          ${sharedStylesFromSomeKindOfExternalResource}
+          .prg {
+            border: 3px solid ${someColorFromCorporativeStyleGuideOrPalette};
+          }
+        `;
+      }
+
+      render() {
+        return html`<p class="prg">I am a litElement!</p>`;
+      }
+    }
+
+    // Register the new element.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

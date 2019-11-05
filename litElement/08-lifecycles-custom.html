@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyElement extends LitElement {
+      static get properties() {
+        return {
+          prop1: {
+            type: Number,
+            reflect: true,
+            hasChanged: (newValue, oldValue) => {
+              console.log('[Prop1] hasChanged?');
+              return true;
+            }
+          },
+          prop2: {
+            type: Number,
+            reflect: true,
+            hasChanged: (newValue, oldValue) => {
+              console.log('[Prop2] hasChanged?');
+              return false;
+            }
+          }
+        };
+      }
+
+      constructor() {
+        super();
+        console.log('Constructor');
+        this.prop1 = 0;
+        this.prop2 = 0;
+      }
+
+      // Is called synchronously by the browser (an element can be dis/connected more than once).
+      // It may be called before the first update/render, and the element might not have the state
+      // needed for some tasks that depend on rendering
+      connectedCallback() {
+        super.connectedCallback();
+        console.log('ConnectedCallback');
+      }
+
+      // Called the first time the element is rendered.
+      // It's intended to be used to do one time setup that depends on an update/render, like
+      // querying the shadow root for important elements
+      firstUpdated(changedProps) {
+        console.log('firstUpdated ', changedProps);
+      }
+
+      // Called after element's update
+      updated(changedProps) {
+        console.log('updated ', changedProps);
+      }
+
+      // This is scheduled as a microtask
+      async performUpdate() {
+        console.log('performUpdate');
+        // If we want to schedule the performUpdate, we need to await something...
+        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+        super.performUpdate();
+      }
+
+      render() {
+        console.log('render');
+        const total = this.prop1 + this.prop2;  // This is a computed property
+        return html`
+          <h1>Lifecycle example (II)</h1>
+          <p>Prop1: ${this.prop1}, Prop2: ${this.prop2}</p>
+          <p>Prop1 (${this.prop1}) + Prop2 (${this.prop2}) = ${total}</p>
+          <button @click=${this.changeProp1}>Change prop1!</button>
+          <button @click=${this.changeProp2}>Change prop2!</button>
+        `;
+      }
+
+      shouldUpdate(changedProps) {
+        console.log('shouldUpdate ', changedProps);
+        return super.shouldUpdate();
+      }
+
+      changeProp1() {
+        this.prop1++;
+      }
+
+      changeProp2() {
+        this.prop2++;
+        this.requestUpdate();  // Manually start an element update
+        // this.requestUpdate('prop2', this.prop2); // Init an update process calling to prop2.hasChange()
+      }
+    }
+
+    // Register the new element with the browser.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

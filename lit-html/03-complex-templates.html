@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style>
+    .red-text { color: red; }
+    .blue-text { color: blue; }
+  </style>
+</head>
+<body>
+  <h1>Complex Templates</h1>
+  <div id="renderArea"></div>
+
+  <script type="module">
+    import { html, render } from 'https://unpkg.com/lit-html?module';
+
+    // Complex expression
+    // ---------------------------
+    // const applyTax = (amount, tax) => html`<div>Total: ${amount + (amount * tax / 100)}€</div>`;
+    // render(applyTax(100, 16), document.querySelector('#renderArea'));
+
+
+    // Attribute binding (boolean values)
+    // --------------------------------------
+    // const booleanAttrBinding = (obj) => html`
+    //   <input type="checkbox" value="v" ?checked=${obj.checkboxSelected}> Select
+    // `;
+    // render(booleanAttrBinding({ checkboxSelected: true }), document.querySelector('#renderArea'));
+
+    // Attribute binding (non boolean values)
+    // --------------------------------------
+    // const attrBinding = (obj) => html`<div name="${obj.class}">red text</div>`;
+    // render(attrBinding({ class: 'red-text' }), document.querySelector('#renderArea'));
+
+
+    // Property binding
+    // ---------------------------
+    // const propBinding = (propValue) => html`<input type="checkbox" value="${propValue}"> Select`;
+    // render(propBinding('input-value'), document.querySelector('#renderArea'));
+
+
+    // Event listeners (some ways)
+    // -----------------------------------------
+    // ---> Binding to a global handler function
+    // const evtHandlerTpl = () => html`<div @click="${clickHandler}">Click me, please!</div>`;
+    // const clickHandler = (e) => console.log('Div clicked!', e);
+    // render(evtHandlerTpl(), document.querySelector('#renderArea'));
+
+    // ---> Binding to a listener object
+    // const listenerObject = { handleEvent: (e) => { /* ... */ } };
+    // const evtHandlerTpl2 = () => html`<div @click="${listenerObject}">Click me, please!</div>`;
+
+    // ---> Binding to an instance function
+    // const evtHandlerTpl3 = () => html`<div @click="${this.handlerEventFunction}">Click me, please!</div>`;
+
+    // ---> Binding to an inline function
+    // const evtHandlerTpl4 = () => html`<div @click="${(e) => { /* ... */ }}">Click me, please!</div>`;
+
+    // ---> Binding to a function
+    // const evtHandlerTpl5 = () => html`<div @click="${(e) => clickHandler()}">Click me, please!</div>`;
+
+
+    // Nested templates
+    // -------------------------------
+    // const titleTpl = (title, subtitle) => html`<h1>${title}</h1><h3>${subtitle}</h3>`;
+    // const headingTpl = (t, s) => html`
+    //   ${titleTpl(t, s)}
+    //   <p>I am the body text</p>
+    // `;
+    // render(headingTpl('I am the title', 'I am the subtitle'), document.querySelector('#renderArea'));
+
+
+    // // Composed templates
+    // // ---------------------------
+    // const mainTitleTpl = (text) => html`<h1>${text}</h1>`;
+    // const subTitleTpl = (text) => html`<h3>${text}</h3>`;
+    // const headerTpl = (mainTitle, subTitle) => html`
+    //   ${mainTitleTpl(mainTitle)}
+    //   ${subTitleTpl(subTitle)}
+    //   <p>I am the body text</p>
+    // `;
+    // render(headerTpl('I am the title', 'I am the subtitle'), document.querySelector('#renderArea'));
+
+
+    // // Conditional templates
+    // // ---------------------------
+    // const condTpl = (condition) => html`Conditional template: ${condition ? 'TRUE' : 'FALSE'}`;
+    // render(condTpl(true), document.querySelector('#renderArea'));
+    // const condTpl2 = (condition) => html`Conditional template: ${condition ? html`<p>P</p>` : html`S`}`;
+    // render(condTpl2(false), document.querySelector('#renderArea'));
+
+
+    // // Repeated templates
+    // // ---------------------------
+    const cities = ['Dos Torres', 'Córdoba', 'Madrid', 'Roma'];
+    render(html`<ul>
+      ${cities.map(c => html`<li>${c}</li>`)}
+    </ul>`, document.querySelector('#renderArea'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <!-- Light DOM -->
+  <header-container>
+    <h1>I am a light DOM</h1>
+  </header-container>
+
+  <!-- Shadow DOM -->
+  <header-container2>
+    <h1>I am a second light DOM</h1>
+  </header-container2>
+
+  <script>
+    customElements.define ('header-container', class extends HTMLElement { });
+
+    customElements.define ('header-container2', class extends HTMLElement {
+      constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.innerHTML = `<b>I am the ShadowDOM!</b>`;
+      }
+    });
+  </script>
+</body>
+</html>

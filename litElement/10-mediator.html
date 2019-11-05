@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-container></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html, css } from 'https://unpkg.com/lit-element?module';
+
+    class MyContainer extends LitElement {
+      static get properties() {
+        return {
+          i: { type: Number }
+        }
+      }
+      render() {
+        return html`
+          <div style="display: flex;">
+            <my-lit-left @increment-value=${this.incrementValueHandler}></my-lit-left>
+            <my-lit-right .i=${this.i}></my-lit-right>
+          </div>
+        `;
+      }
+
+      incrementValueHandler(evt) {
+        this.i = evt.detail;
+        // this.shadowRoot.querySelector('my-lit-right').setAttribute('i', evt.detail);
+      }
+    }
+
+    class Left extends LitElement {
+      static get properties() {
+        return {
+          inc: { type: Number, reflect: true }
+        }
+      }
+      constructor() { super(); this.inc = 0; }
+      render() {
+        return html`
+          <p>
+            <h3>Current value: ${this.inc}</h3>
+            <button @click=${this.setIncrement}>Increment</button>
+          </p>
+        `;
+      }
+      setIncrement() {
+        this.inc++;
+        this.dispatchEvent(new CustomEvent('increment-value', {
+          bubbles: true,
+          composed: true,
+          detail: this.inc
+        }));
+      }
+    }
+
+    class Right extends LitElement {
+      static get properties() {
+        return {
+          i: { type: Number, reflect: true }
+        }
+      }
+      static get styles() {
+        return css`
+          :host { margin-left: 48px; }
+        `;
+      }
+      render() {
+        return html`<p>Value = ${this.i}</p>`;
+      }
+    }
+
+    // Register the elements
+    customElements.define('my-lit-container', MyContainer);
+    customElements.define('my-lit-left', Left);
+    customElements.define('my-lit-right', Right);
+  </script>
+</body>
+</html>

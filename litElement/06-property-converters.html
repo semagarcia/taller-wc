@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyElement extends LitElement {
+      static get properties() {
+        return {
+          prop1: {
+            type: Object,
+            reflect: true,
+            converter: {
+              fromAttribute: (value, type) => {
+                console.log(`From Attribute: `, value);
+                return {
+                  street: value.split('-')[0],
+                  number: value.split('-')[1]
+                }
+              },
+              toAttribute: (value, type) => {
+                console.log(`To Attribute (${type}): `, value);
+                return `${value.street}-${value.number}`;
+              }
+            }
+          },
+        };
+      }
+
+      constructor() { super(); this.prop1 = {street:'calle',number:4}}
+
+      attributeChangedCallback(name, oldval, newval) {
+        console.log('attribute change: ', newval);
+        super.attributeChangedCallback(name, oldval, newval);
+      }
+
+      render() {
+        return html`<p>${this.prop1}</p>`;
+      }
+    }
+
+    // Register the new element with the browser.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

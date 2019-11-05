@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyElement extends LitElement {
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            hasChanged: (newValue, oldValue) => {
+              console.log('Prop1 hasChanged?');
+              return true;
+            }
+          }
+        };
+      }
+
+      constructor() {
+        super();
+        console.log('Constructor');
+        this.prop1 = 'Hello1!';
+      }
+
+      // Is called synchronously by the browser (an element can be dis/connected more than once).
+      // It may be called before the first update/render, and the element might not have the state
+      // needed for some tasks that depend on rendering
+      connectedCallback() {
+        super.connectedCallback();
+        console.log('ConnectedCallback');
+      }
+
+      // Called the first time the element is rendered.
+      // It's intended to be used to do one time setup that depends on an update/render, like
+      // querying the shadow root for important elements
+      firstUpdated(changedProps) {
+        console.log('firstUpdated ', changedProps);
+      }
+
+      // Called after element's update; here we can perform post-updating tasks, like focusing an element
+      updated(changedProps) {
+        console.log('updated ', changedProps);
+      }
+
+      // This method will return void or Promise
+      async performUpdate() {
+        console.log('performUpdate');
+        super.performUpdate();
+      }
+
+      render() {
+        console.log('render');
+        return html`
+          <h1>Lifecycle example (I)</h1>
+          <p>Prop: ${this.prop1}</p>
+          <button @click=${this.changeProp1}>Change prop1!</button>
+        `;
+      }
+
+      // This method controls whether an update should proceed returning a boolean
+      shouldUpdate(changedProps) {
+        console.log('shouldUpdate ', changedProps);
+        return super.shouldUpdate();
+      }
+
+      changeProp1() {
+        this.prop1 = 'Hello2';
+      }
+    }
+
+    // Register the new element with the browser.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

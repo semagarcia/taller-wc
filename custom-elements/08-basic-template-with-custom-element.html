@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <style>h1 { color: red; }</style>
+</head>
+<body>
+  <!-- Custom element instantiation -->
+  <my-awesome-h1-ce></my-awesome-h1-ce>
+
+  <!-- Template definition -->
+  <template id="myTpl">
+    <style>
+      h1 { color: rebeccapurple; }
+    </style>
+    <h1>I am a colorized h1-template!</h1>
+  </template>
+
+  <script>
+    customElements.define('my-awesome-h1-ce', class extends HTMLElement {
+      constructor() {
+        super();
+
+        let template = document.getElementById('myTpl');
+        let tplContent = template.content;
+        const shadowRoot = this
+          .attachShadow({ mode: 'open' })
+          .appendChild(tplContent.cloneNode(true));
+      }
+    });
+  </script>
+</body>
+</html>

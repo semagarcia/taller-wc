@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <my-lit-element></my-lit-element>
+
+  <script type="module">
+    import { LitElement, html } from 'https://unpkg.com/lit-element?module';
+
+    class MyElement extends LitElement {
+      constructor() {
+        super();
+        console.log('Constructor!');
+      }
+
+      render() {
+        console.log('Rendering!');
+        return html`<p>I am a litElement!</p>`;
+      }
+    }
+
+    // Register the new element with the browser.
+    customElements.define('my-lit-element', MyElement);
+  </script>
+</body>
+</html>

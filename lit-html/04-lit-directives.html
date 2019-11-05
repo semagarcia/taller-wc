@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <h1>Directives</h1>
+  <div id="renderArea"></div>
+
+  <script type="module">
+    import { html, render } from 'https://unpkg.com/lit-html?module';
+    import { until } from 'https://unpkg.com/lit-html/directives/until?module';
+
+    const tpl = () => html`${until(
+      new Promise((resolve) => { setTimeout(() => resolve('Tachán!!!'), 4000) }),
+      html`Loading content...`)}
+    `;
+    render(tpl(), document.querySelector('#renderArea'));
+  </script>
+</body>
+</html>

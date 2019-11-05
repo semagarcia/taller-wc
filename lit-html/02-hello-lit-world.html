@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head></head>
+<body>
+  <h1>Hello Lit World</h1>
+  <div id="renderArea"></div>
+
+  <script type="module">
+    import { html, render } from 'https://unpkg.com/lit-html?module';
+
+    // Define a template
+    const helloWorldTemplate = (n) => html`<p>Hello ${n.foo}</p>`;
+    // console.log('TemplateResult: ', helloWorldTemplate());
+
+    // Render the template to the DOM
+    // render(helloWorldTemplate(), document.querySelector('#renderArea'));
+    render(helloWorldTemplate({ foo: 1 }), document.querySelector('#renderArea'));
+  </script>
+</body>
+</html>
